@@ -33,6 +33,8 @@ import { languageApi } from "./api/modules/language";
 import { getApiUrl, getApiToken, clearAuthToken } from "./api/config";
 import "./styles/layout.css";
 import "./styles/form-override.css";
+import "./styles/mobile.css";
+import { MobileNavProvider } from "./contexts/MobileNavContext";
 
 const antdLocaleMap: Record<string, Locale> = {
   zh: zhCN,
@@ -184,24 +186,26 @@ function AppInner() {
       >
         <AntdApp>
           <ApprovalProvider>
-            <Routes>
-              <Route
-                path="/login"
-                element={
-                  <Suspense fallback={null}>
-                    <LoginPage />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/*"
-                element={
-                  <AuthGuard>
-                    <MainLayout />
-                  </AuthGuard>
-                }
-              />
-            </Routes>
+            <MobileNavProvider>
+              <Routes>
+                <Route
+                  path="/login"
+                  element={
+                    <Suspense fallback={null}>
+                      <LoginPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="/*"
+                  element={
+                    <AuthGuard>
+                      <MainLayout />
+                    </AuthGuard>
+                  }
+                />
+              </Routes>
+            </MobileNavProvider>
           </ApprovalProvider>
         </AntdApp>
       </ConfigProvider>
