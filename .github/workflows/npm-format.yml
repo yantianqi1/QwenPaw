@@ -1,6 +1,6 @@
 name: NPM Format (website & console)
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   website:
