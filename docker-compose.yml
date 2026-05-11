@@ -1,5 +1,3 @@
-version: '3.8'
-
 volumes:
   qwenpaw-data:
     name: qwenpaw-data
@@ -10,8 +8,9 @@ volumes:
 
 services:
   qwenpaw:
-    image: agentscope/qwenpaw:latest
+    image: ghcr.io/yantianqi1/qwenpaw:latest
     container_name: qwenpaw
+    pull_policy: always
     restart: always
     ports:
       - "127.0.0.1:8088:8088"
