@@ -180,12 +180,13 @@ export default function Header() {
             alt="QwenPaw"
             className={styles.logoImg}
           />
-          <div className={styles.logoDivider} />
+          <div className={`${styles.logoDivider}${isMobile ? " qwenpaw-logo-divider-mobile-hide" : ""}`} />
           {version && (
             <Badge
               dot={!!hasUpdate}
               color="rgba(255, 157, 77, 1)"
               offset={[4, 28]}
+              className={isMobile ? "qwenpaw-version-badge-mobile-hide" : ""}
             >
               <span
                 className={`${styles.versionBadge} ${
