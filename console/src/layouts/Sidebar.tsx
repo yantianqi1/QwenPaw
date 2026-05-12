@@ -54,15 +54,6 @@ import { KEY_TO_PATH, DEFAULT_OPEN_KEYS } from "./constants";
 // ── Layout ────────────────────────────────────────────────────────────────
 
 const { Sider } = Layout;
-const MOBILE_SIDEBAR_QUERY = "(max-width: 768px)";
-
-function isMobileSidebarViewport() {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia(MOBILE_SIDEBAR_QUERY).matches
-  );
-}
 const INBOX_BADGE_POLLING_MS = 6000;
 
 // ── Types ─────────────────────────────────────────────────────────────────
@@ -85,7 +76,6 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
   const [accountLoading, setAccountLoading] = useState(false);
   const [accountForm] = Form.useForm();
   const [collapsed, setCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(isMobileSidebarViewport);
   const [hasInboxUnread, setHasInboxUnread] = useState(false);
 
   // On mobile we never render the collapsed rail — the entire sidebar is an
@@ -106,29 +96,6 @@ export default function Sidebar({ selectedKey }: SidebarProps) {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    if (
-      typeof window === "undefined" ||
-      typeof window.matchMedia !== "function"
-    ) {
-      return;
-    }
-
-    const mediaQuery = window.matchMedia(MOBILE_SIDEBAR_QUERY);
-    const syncMobileSidebar = () => {
-      setIsMobile(mediaQuery.matches);
-      if (mediaQuery.matches) {
-        setCollapsed(true);
-      }
-    };
-
-    syncMobileSidebar();
-    mediaQuery.addEventListener("change", syncMobileSidebar);
-
-    return () => {
-      mediaQuery.removeEventListener("change", syncMobileSidebar);
-    };
-  }, []);
   useEffect(() => {
     const loadUnreadState = async () => {
       try {

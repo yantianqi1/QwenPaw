@@ -18,7 +18,7 @@
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
 
-  --mobile-header-height: 52px;
+  --mobile-header-height: 44px;
   --mobile-sidebar-width: min(280px, 84vw);
   --mobile-z-header: 1100;
   --mobile-z-sidebar: 1200;
@@ -82,7 +82,7 @@
   /* Header: slim, sticky, with hamburger on the left. */
   .qwenpaw-console-header {
     height: var(--mobile-header-height) !important;
-    padding: 0 12px !important;
+    padding: 0 10px !important;
     padding-top: var(--safe-top) !important;
     position: sticky !important;
     top: 0 !important;
@@ -94,8 +94,18 @@
     min-width: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     overflow: hidden;
+  }
+
+  /* Hide version badge on mobile to save horizontal space */
+  .qwenpaw-console-header-title .qwenpaw-version-badge-mobile-hide {
+    display: none !important;
+  }
+
+  /* Hide the logo divider on mobile */
+  .qwenpaw-console-header-title .qwenpaw-logo-divider-mobile-hide {
+    display: none !important;
   }
 
   /* Hide the desktop-only Changelog / Docs / FAQ / GitHub buttons and the
@@ -392,6 +402,43 @@
   }
 
   /* ── Chat: remove desktop max-width cap ─────────────────────────────── */
+
+  /* Chat internal header: compact on mobile */
+  [class*="chat-anywhere-layout-right-header"] {
+    height: 40px !important;
+    padding: 0 10px !important;
+  }
+
+  /* Reduce the spacer that pushes chat content below the header */
+  [class*="chat-anywhere-layout-right-has-header"]
+    [class*="bubble-list-scroll"]::before {
+    height: 40px !important;
+    flex: 0 0 40px !important;
+  }
+
+  /* Hide the library's InnerHeader (logo + "Work with QwenPaw" title) on mobile
+     since the global Header already shows the QwenPaw branding */
+  [class*="chat-anywhere-default-header-inner"],
+  .qwenpaw-chat-anywhere-default-header-inner {
+    display: none !important;
+  }
+
+  /* Hide ChatHeaderTitle on mobile — saves ~100px horizontal space */
+  .qwenpaw-chat-header-title-mobile-hide {
+    display: none !important;
+  }
+
+  /* Model selector: compact on mobile */
+  [class*="ModelSelector_trigger"] {
+    padding: 2px 6px !important;
+    font-size: 13px !important;
+    max-width: 180px !important;
+  }
+
+  [class*="ModelSelector_triggerName"] {
+    max-width: 120px !important;
+  }
+
   .qwenpaw-chat-anywhere-message-list .qwenpaw-bubble-list {
     max-width: 100% !important;
     padding: 0 10px;
