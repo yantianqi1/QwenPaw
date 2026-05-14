@@ -109,6 +109,14 @@ class ReMeLightMemoryManager(BaseMemoryManager):
             f"Embedding config: {log_cfg}, vector_enabled={vector_enabled}",
         )
 
+        if vector_enabled:
+            from ...token_usage import EmbeddingUsageRecorder
+
+            self._embedding_recorder = EmbeddingUsageRecorder(
+                model_name=emb_config["model_name"],
+            )
+            self._embedding_recorder.patch()
+
         fts_enabled = EnvVarLoader.get_bool("FTS_ENABLED", True)
 
         agent_config = load_agent_config(self.agent_id)
