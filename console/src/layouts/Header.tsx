@@ -1,4 +1,5 @@
 import { Layout, Space, Badge, Spin, Tooltip, Dropdown } from "antd";
+import type { MenuProps } from "antd";
 import LanguageSwitcher from "../components/LanguageSwitcher/index";
 import ThemeToggleButton from "../components/ThemeToggleButton";
 import { useTranslation } from "react-i18next";
@@ -8,6 +9,7 @@ import api from "../api";
 import {
   GITHUB_URL,
   getDocsUrl,
+  getFeatureDemosUrl,
   getFaqUrl,
   getReleaseNotesUrl,
   PYPI_URL,
@@ -27,6 +29,12 @@ import {
   TagOutlined,
   MenuOutlined,
   MoreOutlined,
+  GithubOutlined,
+  FileTextOutlined,
+  ReadOutlined,
+  PlayCircleOutlined,
+  QuestionCircleOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 
 const { Header: AntHeader } = Layout;
@@ -205,45 +213,56 @@ export default function Header() {
           size={isMobile ? 4 : "middle"}
           className="qwenpaw-console-header-actions"
         >
-          {/* Desktop-only nav links. Hidden on mobile via mobile.css. */}
-          <span className="qwenpaw-console-header-desktop-only">
-            <Space size="middle">
-              <Tooltip title={t("header.changelog")}>
-                <Button
-                  type="text"
-                  onClick={() =>
-                    handleNavClick(getReleaseNotesUrl(i18n.language))
-                  }
-                >
-                  {t("header.changelog")}
+          {!isMobile && (
+            <>
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: "tutorial",
+                      icon: <ReadOutlined />,
+                      label: t("header.tutorial"),
+                      onClick: () => handleNavClick(getDocsUrl(i18n.language)),
+                    },
+                    {
+                      key: "featureDemos",
+                      icon: <PlayCircleOutlined />,
+                      label: t("header.featureDemos"),
+                      onClick: () =>
+                        handleNavClick(getFeatureDemosUrl(i18n.language)),
+                    },
+                    {
+                      key: "changelog",
+                      icon: <FileTextOutlined />,
+                      label: t("header.changelog"),
+                      onClick: () =>
+                        handleNavClick(getReleaseNotesUrl(i18n.language)),
+                    },
+                    {
+                      key: "faq",
+                      icon: <QuestionCircleOutlined />,
+                      label: t("header.faq"),
+                      onClick: () => handleNavClick(getFaqUrl(i18n.language)),
+                    },
+                  ] as MenuProps["items"],
+                }}
+              >
+                <Button type="text">
+                  {t("header.resources")} <DownOutlined />
                 </Button>
-              </Tooltip>
-              <Tooltip title={t("header.docs")}>
-                <Button
-                  type="text"
-                  onClick={() => handleNavClick(getDocsUrl(i18n.language))}
-                >
-                  {t("header.docs")}
-                </Button>
-              </Tooltip>
-              <Tooltip title={t("header.faq")}>
-                <Button
-                  type="text"
-                  onClick={() => handleNavClick(getFaqUrl(i18n.language))}
-                >
-                  {t("header.faq")}
-                </Button>
-              </Tooltip>
+              </Dropdown>
               <Tooltip title={t("header.github")}>
-                <Button type="text" onClick={() => handleNavClick(GITHUB_URL)}>
+                <Button
+                  type="text"
+                  icon={<GithubOutlined />}
+                  onClick={() => handleNavClick(GITHUB_URL)}
+                >
                   {t("header.github")}
                 </Button>
               </Tooltip>
               <div className={styles.headerDivider} />
-            </Space>
-          </span>
-
-          {/* Mobile-only: collapse the above links into a "More" dropdown. */}
+            </>
+          )}
           {isMobile && (
             <Dropdown
               trigger={["click"]}
@@ -251,27 +270,38 @@ export default function Header() {
               menu={{
                 items: [
                   {
+                    key: "tutorial",
+                    icon: <ReadOutlined />,
+                    label: t("header.tutorial"),
+                    onClick: () => handleNavClick(getDocsUrl(i18n.language)),
+                  },
+                  {
+                    key: "featureDemos",
+                    icon: <PlayCircleOutlined />,
+                    label: t("header.featureDemos"),
+                    onClick: () =>
+                      handleNavClick(getFeatureDemosUrl(i18n.language)),
+                  },
+                  {
                     key: "changelog",
+                    icon: <FileTextOutlined />,
                     label: t("header.changelog"),
                     onClick: () =>
                       handleNavClick(getReleaseNotesUrl(i18n.language)),
                   },
                   {
-                    key: "docs",
-                    label: t("header.docs"),
-                    onClick: () => handleNavClick(getDocsUrl(i18n.language)),
-                  },
-                  {
                     key: "faq",
+                    icon: <QuestionCircleOutlined />,
                     label: t("header.faq"),
                     onClick: () => handleNavClick(getFaqUrl(i18n.language)),
                   },
                   {
                     key: "github",
+                    icon: <GithubOutlined />,
                     label: t("header.github"),
                     onClick: () => handleNavClick(GITHUB_URL),
                   },
-                ],
+                ] as MenuProps["items"],
               }}
             >
               <Button
@@ -281,7 +311,6 @@ export default function Header() {
               />
             </Dropdown>
           )}
-
           <LanguageSwitcher />
           <ThemeToggleButton />
         </Space>
