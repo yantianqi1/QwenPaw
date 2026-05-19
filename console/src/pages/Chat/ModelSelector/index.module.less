@@ -190,8 +190,46 @@
   padding: 14px 16px;
   text-align: center;
 }
-
-/* ─── Dark mode overrides ─────────────────────────────────────────────────── */
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+  .panel {
+    width: min(220px, calc(100vw - 24px));
+    max-height: min(70dvh, 520px);
+    overflow-y: auto;
+  }
+  .providerItem {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 8px 10px;
+    &::after {
+      display: none;
+    }
+  }
+  .providerArrow {
+    margin-top: 3px;
+    transform: rotate(90deg);
+  }
+  .submenu {
+    display: block;
+    position: static;
+    width: calc(100% - 28px);
+    min-width: 0;
+    max-height: none;
+    margin: 6px 0 2px 28px;
+    overflow: visible;
+    border: 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .modelItem {
+    padding: 7px 8px;
+    white-space: normal;
+  }
+  .modelName {
+    overflow-wrap: anywhere;
+  }
+}
 :global(.dark-mode) {
   .trigger {
     color: rgba(255, 255, 255, 0.85);

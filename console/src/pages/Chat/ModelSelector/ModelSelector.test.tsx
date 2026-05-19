@@ -3,6 +3,9 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { renderWithProviders } from "@/test/common_setup";
 import ModelSelector from "./index";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // ---------------------------------------------------------------------------
 // Mocks
@@ -130,6 +133,18 @@ describe("ModelSelector", () => {
     await user.click(screen.getByText("GPT-4"));
 
     expect(await screen.findByText("OpenAI")).toBeInTheDocument();
+  });
+
+  it("keeps mobile model choices inside the dropdown panel", () => {
+    const css = readFileSync(
+      resolve(dirname(fileURLToPath(import.meta.url)), "index.module.less"),
+      "utf-8",
+    );
+
+    expect(css).toContain("@media (max-width: 768px)");
+    expect(css).toContain("width: min(220px, calc(100vw - 24px))");
+    expect(css).toContain("position: static");
+    expect(css).toContain("display: block");
   });
 
   it("clicking a model calls setActiveLlm with correct parameters", async () => {
